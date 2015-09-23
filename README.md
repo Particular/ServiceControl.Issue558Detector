@@ -57,11 +57,11 @@ Contact us via support (http://particular.net/support) and we will work with you
 Removing Temp Index...
  DONE
 ```
-### How it works?
+### What does it do?
 
-The first step that the tool takes is to create a temporary index. This index is created in the embedded RavenDB database that is embedded inside ServiceControl. This index is only required for the tool and will be removed when the tool done executing. Depending on the number of messages that you have, this step make take some time (in our testing we have seen it take 10-15 minutes). 
+The tool creates a temporary index in the RavenDB database that is embedded within ServiceControl. This index is only required for the tool and will be removed when the tool done executing. Depending upon the number of messages that you have, this step may take some time. In our testing we have seen it take 10-15 minutes. 
 
-Once the index has been created the tool will check each Failed Message in the database. Failed Messages are never deleted from ServiceControl so any message which has ever failed will still be there. The check involves looking at the series of events which have happened related to that failed message.
+Once the index has been created, the tool will check each Failed Message in the database. Failed Messages are never deleted from ServiceControl, so any message which has ever failed will still be recorded there. The tool then examines the series of events related to that failed message.
 
 If a message is Archived or Resolved and then subsequently retried then it has been affected by Issue 558. The tool will output the details of any message which meets this criteria.
 
@@ -69,18 +69,18 @@ The details include:
 * The type of the message
 * The ID of the message
 * The endpoint that the message was sent to
-* A status for the message (more on this below) AND
+* A status for the message (more on this below)
 * A timeline of events for the message
 
 Each message that is output by the tool will have one of two statuses:
 * `Definitely Affected` - the tool has detected a case where the message was sent for re-processing when it should not have been. Messages in this category require some manual intervention (see below).
-* `May be affected` - the tool has encountered an event in the log that is ambiguous. Messages in the category require a user to interpret the timeline.
+* `May be affected` - the tool has encountered an event in the log that is ambiguous. Messages in this category require interpretation of the timeline.
 
-Once the tool has scanned all of the messages a footer message provides an overall health statement indicating if you have or have not been affected by Issue 558.
+Once the tool has scanned all of the messages, a footer message provides an overall health statement indicating if you have or have not been affected by Issue 558.
 
 ## Common results
 
-The following are sample timelines which the detection tool might identify in your database, with explanation of what they mean and suggestion on how they should be handled. If you observe other timelines and you are not sure how to proceed, do not hesitate to contact our support.
+The following are sample timelines which the detection tool might identify in your database, with explanation of what they mean and suggestions on how they should be handled. If you observe other timelines and you are not sure how to proceed, do not hesitate to contact our support.
 
 ### FailedMessageArchived > MessagesSubmittedForRetry
 #### Sample detection tool output 
@@ -109,7 +109,7 @@ Message History:
 	19-Aug-15 23:02:59 Z: [May be affected] MessageFailed
 ```
 
-#### What that means?
+#### What does it mean?
 
 The previously archived message was retried.
 
@@ -147,7 +147,7 @@ Message History:
 	23-Aug-15 06:07:35 Z: [May be affected] MessageFailureResolvedByRetry
 ```
 
-#### What that means?
+#### What does it mean?
 
 The message in question was successfully retried in the past. However, it was picked up again during "Retry all" or "Retry group" operation and was incorrectly attempted to be processed again.
 
@@ -188,7 +188,7 @@ Message History:
 	21-Aug-15 13:09:13 Z: [       Affected] MessagesSubmittedForRetry
 ```
 
-#### What that means?
+#### What does it mean?
 
 This timeline can be the result of the following situations:
   1. Audit Ingestion is turned off - If this is the case then ServiceControl will not hear about it if a message is successfully resolved.
