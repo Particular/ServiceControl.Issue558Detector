@@ -1,6 +1,6 @@
 # Issue 558 Detector
 
-An [issue in ServiceControl 1.6](https://github.com/Particular/ServiceControl/pull/558) was identified which causes too many messages to be retried when the user performs a bulk retry operation. This tool will check the logs in your ServiceControl instance to see if any instances of this can be found.
+An [issue in ServiceControl 1.6](https://github.com/Particular/ServiceControl/pull/558) was identified which causes too many messages to be retried when the user performs a bulk retry operation. This tool will your ServiceControl instance to see if you're affected.
 
 ## How to run the tool
 
@@ -19,6 +19,8 @@ The tool assumes that RavenDB instance is exposed at the default url, i.e. `http
 The tool outputs directly to the console window. To keep the output for examination later, pipe the output to a file using the `>` operator like this:
 
     Issue558Detector.exe > results.txt
+
+After the tool finishes running press Enter to exit maintenance mode.
 
 ### 4. Restart Service Control
 In the Services Control Pane, find the ServiceControl instance and restart it.
@@ -71,8 +73,8 @@ The details include:
 * A timeline of events for the message
 
 Each message that is output by the tool will have one of two statuses:
-* `Definitely Affected` - means that the tool has detected a case where the message was sent for re-processing when it should not have been. Messages in this category require some manual intervention (see below).
-* `May be affected` - means that the tool has encountered an event in the log that is ambiguous. Messages in the category require a user to interpret the timeline.
+* `Definitely Affected` - the tool has detected a case where the message was sent for re-processing when it should not have been. Messages in this category require some manual intervention (see below).
+* `May be affected` - the tool has encountered an event in the log that is ambiguous. Messages in the category require a user to interpret the timeline.
 
 Once the tool has scanned all of the messages a footer message provides an overall health statement indicating if you have or have not been affected by Issue 558.
 
