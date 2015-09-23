@@ -1,18 +1,18 @@
 # Issue 558 Detector
 
-An [issue in ServiceControl 1.6](https://github.com/Particular/ServiceControl/pull/558) was identified which causes too many messages to be retried when the user performs a bulk retry operation. This tool will your ServiceControl instance to see if you're affected.
+An [issue in ServiceControl 1.6.0, 1.6.1, and 1.6.2](https://github.com/Particular/ServiceControl/pull/558) was identified which causes too many messages to be retried when the user performs a bulk retry operation, which was fixed in [ServiceControl 1.6.3](https://github.com/Particular/ServiceControl/releases/tag/1.6.3). This tool will examine your ServiceControl instance to see if you're affected.
 
 ## How to run the tool
 
 ### 1. Shut down Service Control
-Open the Services Panel, find the ServiceControl instance and stop it. 
+Open the Services Panel, find the `Particular ServiceControl` instance and stop it. 
 
 ### 2. Start Service Control in Maintenance Mode
 From an administrative command prompt, run `ServiceControl.exe --maint`. This will expose the embedded RavenDB database via RavenDB Studio (by default at `http://localhost:33333/storage`). ServiceControl will keep processing messages as usual.
 
 ### 3. Run the tool from the command line
 On the machine that ServiceControl is running, open a command prompt and run it in administrative mode. Navigate to directory where `Issue558Detector.exe` is stored and run it. 
-The tool assumes that RavenDB instance is exposed at the default url, i.e. `http://localhost:33333/storage`. However, if you customized configuration then you can pass the full url in on the command line like this:
+The tool assumes that RavenDB instance is exposed at the default url, i.e. `http://localhost:33333/storage`. However, if you customized the ServiceControl configuration to alter the URL, you can pass the full URL in on the command line like this:
 
     Issue558Detector.exe http://[machineName]:[port]/storage
 
@@ -20,10 +20,10 @@ The tool outputs directly to the console window. To keep the output for examinat
 
     Issue558Detector.exe > results.txt
 
-After the tool finishes running press Enter to exit maintenance mode.
+After the tool finishes running, press Enter in ServiceControl to exit maintenance mode.
 
 ### 4. Restart Service Control
-In the Services Control Pane, find the ServiceControl instance and restart it.
+In the Services Control Pane, find the `Particular ServiceControl` instance and restart it.
 
 ## About the tool
 
